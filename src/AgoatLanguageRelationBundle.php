@@ -1,9 +1,9 @@
 <?php
 /*
- * Posts'n'pages extension for Contao Open Source CMS.
+ * Language relations for Contao Open Source CMS.
  *
- * @copyright  Arne Stappen (alias aGoat) 2017
- * @package    contao-postsnpages
+ * @copyright  Arne Stappen (alias aGoat) 2018
+ * @package    contao-languagerelation
  * @author     Arne Stappen <mehh@agoat.xyz>
  * @link       https://agoat.xyz
  * @license    LGPL-3.0
