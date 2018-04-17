@@ -76,7 +76,7 @@ class LanguageRelationWizard extends Widget
 		$languageRelation = System::getContainer()->get('contao.language.relation')->buildFromDca($this->objDca);
 
 		if (null === $languageRelation) {
-			return '<div style="height: 40px; margin: 5px 5px 5px 0;"><div>Unable to find a language relation provider that can handle this context!!</div></div>';
+			return '<div style="padding:6px 0;"><div>Unable to find a language relation provider that can handle this context!!</div></div>';
 		}
 
 		if (!empty($language)) {

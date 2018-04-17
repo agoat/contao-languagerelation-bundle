@@ -56,12 +56,6 @@ class LanguageRelation
 	}
 
 	
-	public function legacyMode()
-	{
-		return $this->provider->legacyMode();
-	}
-	
-	
 	public function getLanguages()
 	{
 		return $this->languages;
@@ -114,7 +108,7 @@ class LanguageRelation
 	
 	public function getTitle($language)
 	{
-		return $this->related[$language]->title;
+		return $this->related[$language]->title?: $this->related[$language]->headline;
 	}
 
 	

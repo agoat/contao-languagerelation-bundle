@@ -29,9 +29,7 @@ class LanguageRelationAssembler
 			'Agoat\LanguageRelationBundle\DataContainer\RelationFieldConstructor'
 		],
 		'tl_content' => [
-			'Agoat\LanguageRelationBundle\DataContainer\ArticleContentViewConstructor',
-		//	'Agoat\LanguageRelationBundle\DataContainer\EventContentViewConstructor',
-		//	'Agoat\LanguageRelationBundle\DataContainer\PostContentViewConstructor',
+			'Agoat\LanguageRelationBundle\DataContainer\AbstractContentViewConstructor',
 		],
 		'tl_calendar' => [
 			'Agoat\LanguageRelationBundle\DataContainer\RelationFieldConstructor'
@@ -41,24 +39,11 @@ class LanguageRelationAssembler
 			'Agoat\LanguageRelationBundle\DataContainer\RelationFieldConstructor'
 		],
 		'tl_news' => [
-			//'Agoat\LanguageRelationBundle\DataContainer\NewsArchiveViewConstructor',
+			'Agoat\LanguageRelationBundle\DataContainer\NewsArchiveViewConstructor',
 			'Agoat\LanguageRelationBundle\DataContainer\RelationFieldConstructor'
 		],
 		'tl_news_archive' => [
 			'Agoat\LanguageRelationBundle\DataContainer\RelationFieldConstructor'
-		],
-		
-		
-		'tl_archive' => [
-			'Agoat\LanguageRelationBundle\DataContainer\PageNodeViewConstructor',
-			'Agoat\LanguageRelationBundle\DataContainer\RelationFieldConstructor'
-		],
-		'tl_posts' => [
-			'Agoat\LanguageRelationBundle\DataContainer\PostArchiveViewConstructor',
-			'Agoat\LanguageRelationBundle\DataContainer\RelationFieldConstructor'
-		],
-		'tl_container' => [
-			'Agoat\LanguageRelationBundle\DataContainer\PageNodeViewConstructor'
 		],
 	];
 

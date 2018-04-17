@@ -18,7 +18,7 @@ use Contao\Backend;
 /**
  * Add Language relation widget field
  */
-class ArticleContentViewConstructor extends AbstractConstructor
+class AbstractContentViewConstructor extends AbstractConstructor
 {
 
 	public function buildDca ()
@@ -35,10 +35,10 @@ class ArticleContentViewConstructor extends AbstractConstructor
 			} else {
 				$id = $dc->id;
 			}
-dump($dc);
+
 			/** @var LanguageRelation */
 			$languageRelation = \System::getContainer()->get('contao.language.relation')->buildFromTableAndId($dc->parentTable, $id);
-dump($languageRelation);
+
 			if (null !== $languageRelation && $languageRelation->hasRelations()) {
 				$this->createRelationButton($languageRelation);
 			}
