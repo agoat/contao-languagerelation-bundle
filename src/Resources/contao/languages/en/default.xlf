@@ -6,7 +6,7 @@
 				<source>Language settings</source>
 			</trans-unit>
 			<trans-unit id="DCA.relation.0">
-				<source>Language relation</source>
+				<source>Language relations</source>
 			</trans-unit>
 			<trans-unit id="DCA.relation.1">
 				<source>Please specify all related languages (whenever possible).</source>
@@ -22,6 +22,12 @@
 			</trans-unit>
 			<trans-unit id="MSC.createRelation">
 				<source>Create (copy)</source>
+			</trans-unit>
+			<trans-unit id="MSC.languageCode">
+				<source>Language</source>
+			</trans-unit>
+			<trans-unit id="MSC.languageLabel">
+				<source>Label</source>
 			</trans-unit>
 		</body>
 	</file>

@@ -100,33 +100,7 @@ class CalendarLanguageRelationProvider extends AbstractLanguageRelationProvider 
 	
 	public function getCreateUrl($language)
 	{
-		if (0 == $this->currentArticle->pid) {
-			return null;
-		}
-		
-		$parentPage = \PageModel::findByPk($this->currentArticle->pid);
-		
-		/** It may be possible to look on the next parent level and insert there (but that's maybe confusing for the user to know where the new page will be created)
-		while (!$parentPage->relation && 'root' != $parentPage->type) {
-			$parentPage = \PageModel::findByPk($parentPage->pid);
-		}
-		*/
-	
-		$related = $this->getRelations($this->getDcaTable(), $parentPage);
-	
-		if (!array_key_exists($language, $related)) {
-			return null;
-		}
-		
-		$subPages = \PageModel::findByPid($related[$language]->id, ['order'=>'sorting']);
-	
-		if (null === $subPages) {
-			$query = 'act=copy&mode=2&id='.$this->currentArticle->id.'&pid='.$related[$language]->id;
-		} else {
-			$query = 'act=copy&mode=1&id='.$this->currentArticle->id.'&pid='.$subPages->last()->id;
-		}
-		
-		return Backend::addToUrl($query);
+		return false; // Calendars shouldn't be copied to another language (?)
 	}
 	
 	

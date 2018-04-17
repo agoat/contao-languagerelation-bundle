@@ -22,4 +22,5 @@ $GLOBALS['FE_MOD']['navigationMenu']['languagenav'] = 'Agoat\LanguageRelationBun
 
 // Back end form fields (widgets)
 $GLOBALS['BE_FFL']['relationWizard'] = '\Agoat\LanguageRelationBundle\Contao\LanguageRelationWizard';
+$GLOBALS['BE_FFL']['labelWizard'] = '\Agoat\LanguageRelationBundle\Contao\LanguageLabelWizard';
 

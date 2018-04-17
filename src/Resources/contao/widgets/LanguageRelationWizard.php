@@ -12,6 +12,7 @@
 namespace Agoat\LanguageRelationBundle\Contao;
 
 use Agoat\LanguageRelationBundle\LanguageRelation\LanguageRelationGenerator;
+use Contao\Widget;
 use Contao\System;
 use Contao\Backend;
 use Contao\Image;
@@ -20,7 +21,7 @@ use Contao\Image;
 /**
  * Provide methods to handle language relation options
  */
-class LanguageRelationWizard extends \Widget
+class LanguageRelationWizard extends Widget
 {
 
 	/**

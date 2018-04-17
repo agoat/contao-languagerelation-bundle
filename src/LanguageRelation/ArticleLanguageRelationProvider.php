@@ -35,9 +35,12 @@ class ArticleLanguageRelationProvider extends AbstractLanguageRelationProvider i
 	}
 	
 	
-	public function legacyMode()
+	/**
+     * {@inheritdoc}
+     */	
+	public function getQueryName()
 	{
-		return true;
+		return 'articles';
 	}
 
 
@@ -113,12 +116,6 @@ class ArticleLanguageRelationProvider extends AbstractLanguageRelationProvider i
 	public function getPickerUrl($language)
 	{
 		return false; // ArticlePicker not yet implemented
-		
-		$options = [
-			'rootNodes' => $this->rootPages[$language]->id
-		];
-		
-		return \System::getContainer()->get('contao.picker.builder')->getUrl('article', $options);
 	}
 	
 	

@@ -51,11 +51,13 @@ class LanguageRelationGenerator
 		$this->relationCache = array();
 	}
 	
+	
 	private function getContextForTable($table)
 	{
 		return $this->context[$table];
 	}
 
+	
     /**
 	 * Register provider
 	 *
@@ -68,7 +70,7 @@ class LanguageRelationGenerator
 		$this->providers[$context] = $provider;
 		
 		$this->context[$provider->getDcaTable()] = $context;
-		//$this->query[$provider->getQueryName()] = $context;
+		$this->query[$provider->getQueryName()] = $context;
 	}
 
 
@@ -87,7 +89,6 @@ class LanguageRelationGenerator
 			return $this->relationCache[$context.$id];
 		} else {
 			$relation = $this->providers[$context]->build($id, $published);
-	dump($relation);
 			
 			if (null !== $relation) {
 				$this->relationCache[$context.$id] = $relation;
@@ -95,7 +96,6 @@ class LanguageRelationGenerator
 			
 			return $relation;
 		}
-
 	}
 
 	
@@ -125,14 +125,8 @@ class LanguageRelationGenerator
 	
 	public function buildFromRequest($objpage)
 	{
-		$query = [
-			'posts' => 'post',
-			'events' => 'event'
-		];
-		
-		foreach ($query as $key=>$context) {
+		foreach ($this->query as $key=>$context) {
 			if (null !== ($id = \Input::get($key))) {
-				dump($context);
 				return $this->build($context, $id, true);
 			}
 		}

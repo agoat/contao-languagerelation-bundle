@@ -184,11 +184,11 @@ abstract class AbstractLanguageRelationProvider implements LanguageRelationProvi
 	
 	
  	/**
-     * {@inheritdoc}
+     * Set query name to n/a
      */	
 	public function getQueryName()
 	{
-		return null;
+		return 'n/a';
 	}
 	
 	

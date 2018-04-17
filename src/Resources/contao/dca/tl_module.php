@@ -12,7 +12,8 @@
  
 // Palettes
 $GLOBALS['TL_DCA']['tl_module']['palettes']['languagenav']  = '{title_legend},name,headline,type;{nav_legend},hideActive,hideAlternative,onlyRoot;{language_legend},customLanguages,labels;{template_legend:hide},navigationTpl,customTpl;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID';
-//$GLOBALS['TL_DCA']['tl_module']['subpalettes']['customLanguages']  = 'languages';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'customLanguages';
+$GLOBALS['TL_DCA']['tl_module']['subpalettes']['customLanguages']  = 'languageLabels';
 
 // Fields
 $GLOBALS['TL_DCA']['tl_module']['fields']['hideActive'] = array
@@ -45,8 +46,15 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['customLanguages'] = array
 	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['customLanguages'],
 	'exclude'                 => true,
 	'inputType'               => 'checkbox',
-	'options'				  => array('en','de'),
-	'eval'                    => array('tl_class'=>'w50 m12', 'multiple'=>true),
+	'eval'                    => array('submitOnChange'=>true, 'tl_class'=>'w50 m12'),
 	'sql'                     => "char(1) NOT NULL default ''"
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['languageLabels'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['languageLabels'],
+	'exclude'                 => true,
+	'inputType'               => 'labelWizard',
+	'eval'                    => array('allowHtml'=>true, 'tl_class'=>'clr'),
+	'sql'                     => "blob NULL"
 );
 

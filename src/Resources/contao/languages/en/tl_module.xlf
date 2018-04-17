@@ -27,7 +27,13 @@
         <source>Custom language labels</source>
       </trans-unit>
       <trans-unit id="tl_module.customLanguages.1">
-        <source>Here you can enter custom labels which will be used instead of the default language names.</source>
+        <source>Specify custom labels (and order) for the language menu.</source>
+      </trans-unit>
+      <trans-unit id="tl_module.languageLabels.0">
+        <source>Language labels</source>
+      </trans-unit>
+      <trans-unit id="tl_module.languageLabels.1">
+        <source>Here you can specify custom labels (with custom sorting order) that will be used instead of the default language names.</source>
       </trans-unit>
     </body>
   </file>
