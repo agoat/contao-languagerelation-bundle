@@ -57,5 +57,8 @@ class RelationFieldConstructor extends AbstractConstructor
 			'eval'		=> array('doNotSaveEmpty'=>true, 'helpwizard'=>false, 'doNotCopy'=>true, 'tl_class'=>'clr'),
 			'sql'		=> "int(10) unsigned NOT NULL default '0'"
 		);
+
+		$GLOBALS['TL_LANG'][$this->table]['relation'] = $GLOBALS['TL_LANG']['DCA']['relation'];
+		$GLOBALS['TL_LANG'][$this->table]['relation_legend'] = $GLOBALS['TL_LANG']['DCA']['relation_legend'];
 	}
 }

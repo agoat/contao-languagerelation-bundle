@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.1">
+	<file datatype="php" original="src/Resources/contao/languages/en/default.php" source-language="en">
+		<body>
+			<trans-unit id="DCA.relation_legend">
+				<source>Language settings</source>
+			</trans-unit>
+			<trans-unit id="DCA.relation.0">
+				<source>Language relation</source>
+			</trans-unit>
+			<trans-unit id="DCA.relation.1">
+				<source>Please specify all related languages (whenever possible).</source>
+			</trans-unit>
+			<trans-unit id="MSC.currentLanguage">
+				<source>Current language</source>
+			</trans-unit>
+			<trans-unit id="MSC.noRelation">
+				<source>not related</source>
+			</trans-unit>
+			<trans-unit id="MSC.selectRelation">
+				<source>Select</source>
+			</trans-unit>
+			<trans-unit id="MSC.createRelation">
+				<source>Create (copy)</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

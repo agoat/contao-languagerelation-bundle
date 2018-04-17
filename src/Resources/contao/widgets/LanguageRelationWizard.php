@@ -84,8 +84,6 @@ class LanguageRelationWizard extends \Widget
 				$this->renderLanguageSelectBlock($languageRelation, $language, false);
 		} 
 		
-		$html = '<div id="ctrl_'.$this->strId.'">';
-		
 		foreach ($languageRelation->getLanguages() as $language)
 		{
  			$block = $languageRelation->supportsPicker()?
@@ -99,18 +97,21 @@ class LanguageRelationWizard extends \Widget
 			}
 		}
 		
-		return '<div id="ctrl_'.$this->strId.'">'.$html.'</div>';
+		return '<div id="ctrl_'.$this->strId.'" style="padding:6px 0;">'.$html.'</div>';
  	}
 	
 	
 	private function renderLanguagePickerBlock($languageRelation, $language, $outerBlock=true)
 	{
-		$block = $outerBlock ? '<div style="height: 40px; margin: 5px 5px 5px 0;" id="ctrl_'.$this->strId.'_'.$language.'" >' : '';
-		$block .= '<div class="llabel" style="position: relative;top: 50%;transform: translateY(-50%);">';
+		$block = '';
+		
+		if ($outerBlock) {
+			$block .= $this->startBlock($language);
+		}
 		
 		if ($languageRelation->isCurrent($language)) {
 			$block .= $this->addLanguageName($language);
-			$block .= $this->addTitle($this->objDca->activeRecord->title, 'Currently editing');
+			$block .= $this->addTitle($this->objDca->activeRecord->title, $GLOBALS['TL_LANG']['MSC']['currentLanguage']);
 			
 		} elseif ($languageRelation->isRelated($language)) {
 			$block .= $this->addHiddenField($language, $id ?: $languageRelation->getId($language));
@@ -125,7 +126,7 @@ class LanguageRelationWizard extends \Widget
 		} else {
 			$block .= $this->addHiddenField($language);
 			$block .= $this->addLanguageName($language);
-			$block .= $this->addTitle($languageRelation->getTitle($language));
+			$block .= $this->addTitle('-', $GLOBALS['TL_LANG']['MSC']['noRelation']);
 
 			$block .= ' <span style="margin-left: 5px">';
 			$block .= $this->addSelectButton($language, $languageRelation->getPickerUrl($language));
@@ -133,8 +134,9 @@ class LanguageRelationWizard extends \Widget
 			$block .= '</span>';
 		}
 		
-		$block .= $outerBlock ? '</div>' : '';
-		$block .= '</div>';
+		if ($outerBlock) {
+			$block .= $this->stopBlock();
+		}
 		
 		return $block;
 	}
@@ -142,12 +144,15 @@ class LanguageRelationWizard extends \Widget
 
 	private function renderLanguageSelectBlock($languageRelation, $language, $outerBlock=true)
 	{
-		$block = $outerBlock ? '<div style="height: 40px; margin: 5px 5px 5px 0;" id="ctrl_'.$this->strId.'_'.$language.'" >' : '';
-		$block .= '<div class="llabel" style="position: relative;top: 50%;transform: translateY(-50%);">';
+		$block = '';
+		
+		if ($outerBlock) {
+			$block .= $this->startBlock($language);
+		}
 		
 		if ($languageRelation->isCurrent($language)) {
 			$block .= $this->addLanguageName($language);
-			$block .= $this->addTitle($this->objDca->activeRecord->title, 'Currently editing');
+			$block .= $this->addTitle($this->objDca->activeRecord->title, $GLOBALS['TL_LANG']['MSC']['currentLanguage']);
 			
 		} elseif ($languageRelation->isRelated($language)) {
 			$block .= $this->addHiddenField($language, $id ?: $languageRelation->getId($language));
@@ -163,10 +168,23 @@ class LanguageRelationWizard extends \Widget
 
 		}
 		
-		$block .= $outerBlock ? '</div>' : '';
-		$block .= '</div>';
+		if ($outerBlock) {
+			$block .= $this->stopBlock();
+		}
 		
 		return $block;
+	}
+
+	
+	private function startBlock($language)
+	{
+		return '<div style="padding: 4px 0;" id="ctrl_'.$this->strId.'_'.$language.'" >';
+	}
+
+	
+	private function stopBlock()
+	{
+		return '</div>';
 	}
 
 	
@@ -178,13 +196,15 @@ class LanguageRelationWizard extends \Widget
 	
 	private function addLanguageName($language)
 	{
-		return '<span class="lang">Language ('.$language.')</span>: ';
+		System::loadLanguageFile('languages');
+	
+		return '<span class="tl_gray" style="display: inline-block; padding: 7px 0">'.$GLOBALS['TL_LANG']['LNG'][$language].' ('.$language.') '.Image::getHtml('navexp.svg'). '  </span> ';
 	}
 
 	
 	private function addTitle($title, $hint=false)
 	{
-		return '<span class="title">'.$title.($hint?' <span class="hint" style="color:#aaa">('.$hint.')</span>':'').'</span>';
+		return '<span class="title">'.$title.($hint?' <span class="tl_gray">('.$hint.')</span>':'').'</span>';
 	}
 
 	
@@ -240,8 +260,8 @@ class LanguageRelationWizard extends \Widget
 	private function addSelectButton($language, $pickerUrl)
 	{
 		return empty($pickerUrl)?
-			' <button class="tl_submit" disabled>'.$GLOBALS['TL_LANG']['MSC']['selectRelation'].'Select</button>':
-			' <a href="'.ampersand($pickerUrl).'" class="tl_submit" id="pt_' . $this->strName . '_select_' . $language . '">'.$GLOBALS['TL_LANG']['MSC']['selectRelation'].'Select</a>
+			' <button class="tl_submit" disabled>'.$GLOBALS['TL_LANG']['MSC']['selectRelation'].'</button>':
+			' <a href="'.ampersand($pickerUrl).'" class="tl_submit" id="pt_' . $this->strName . '_select_' . $language . '">'.$GLOBALS['TL_LANG']['MSC']['selectRelation'].'</a>
 	<script>
 	  $("pt_' . $this->strName . '_select_' . $language . '").addEvent("click", function(e) {
 		e.preventDefault();
@@ -271,8 +291,8 @@ class LanguageRelationWizard extends \Widget
 		}
 		
 		return (null === $createUrl) ?
-			' <button class="tl_submit" disabled>'.$GLOBALS['TL_LANG']['MSC']['createRelation'].'Create (copy)</button> ':
-			' <a href="'.ampersand($createUrl).'" class="tl_submit">'.$GLOBALS['TL_LANG']['MSC']['createRelation'].'Create (copy)</a> ';
+			' <button class="tl_submit" disabled>'.$GLOBALS['TL_LANG']['MSC']['createRelation'].'</button> ':
+			' <a href="'.ampersand($createUrl).'" class="tl_submit">'.$GLOBALS['TL_LANG']['MSC']['createRelation'].'</a> ';
 	}
 
 }
