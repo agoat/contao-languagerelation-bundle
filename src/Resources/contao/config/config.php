@@ -12,6 +12,14 @@
 
 
 // Add loadDataContainer hook
-$GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('Agoat\\LanguageRelationBundle\\Contao\\DataContainer','onLoadDataContainer');
+$GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('Agoat\\LanguageRelationBundle\\DataContainer\\LanguageRelationAssembler','buildDca');
 
-dump('config');
+// Add executePostActions hook
+$GLOBALS['TL_HOOKS']['executePostActions'][] = array('Agoat\\LanguageRelationBundle\\Contao\\Ajax','postActions');
+
+// Frontend module
+$GLOBALS['FE_MOD']['navigationMenu']['languagenav'] = 'Agoat\LanguageRelationBundle\Contao\ModuleLanguageNavigation';
+
+// Back end form fields (widgets)
+$GLOBALS['BE_FFL']['relationWizard'] = '\Agoat\LanguageRelationBundle\Contao\LanguageRelationWizard';
+
