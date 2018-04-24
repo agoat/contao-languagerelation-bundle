@@ -78,10 +78,10 @@ class Ajax extends Backend
 
 				// Set the new value
 				$varValue = \Input::post('value', true);
-dump($dc);
+
 				// Convert the selected values
 				$languageRelation = \System::getContainer()->get('contao.language.relation')->buildFromDca($dc);
-dump($languageRelation);
+
 				if (empty($varValue)) {
 					$languageRelation->removeRelation($strLanguage);
 				} else {
