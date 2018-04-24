@@ -2,49 +2,33 @@ services:
     contao.language.relation:
         class: Agoat\LanguageRelationBundle\LanguageRelation\LanguageRelationGenerator
         public: true
-           
             
     contao.language.relation.provider.page:
         class: Agoat\LanguageRelationBundle\LanguageRelation\PageLanguageRelationProvider
-        arguments:
-            - "Contao\\Database"
         tags:
             - { name: contao.languagerelation_provider }
 
     contao.language.relation.provider.article:
         class: Agoat\LanguageRelationBundle\LanguageRelation\ArticleLanguageRelationProvider
-        arguments:
-            - "Contao\\Database"
         tags:
             - { name: contao.languagerelation_provider }
 
     contao.language.relation.provider.calendar:
         class: Agoat\LanguageRelationBundle\LanguageRelation\CalendarLanguageRelationProvider
-        arguments:
-            - "Contao\\Database"
         tags:
             - { name: contao.languagerelation_provider }
 
     contao.language.relation.provider.calendarevents:
         class: Agoat\LanguageRelationBundle\LanguageRelation\CalendarEventsLanguageRelationProvider
-        arguments:
-            - "Contao\\Database"
         tags:
             - { name: contao.languagerelation_provider }
 
     contao.language.relation.provider.newsarchive:
         class: Agoat\LanguageRelationBundle\LanguageRelation\NewsArchiveLanguageRelationProvider
-        arguments:
-            - "Contao\\Database"
         tags:
             - { name: contao.languagerelation_provider }
 
     contao.language.relation.provider.news:
         class: Agoat\LanguageRelationBundle\LanguageRelation\NewsLanguageRelationProvider
-        arguments:
-            - "Contao\\Database"
         tags:
             - { name: contao.languagerelation_provider }
-
- 
- 

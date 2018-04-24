@@ -22,10 +22,10 @@ class EventCalendarViewConstructor extends AbstractConstructor
 	public function buildDca ()
 	{
 		$GLOBALS['TL_DCA'][$this->table]['config']['onload_callback'][] = function(\DataContainer $dc) {
-			if ('edit' == $_GET['act']) {
+			if ($_GET['act'] && 'edit' == $_GET['act']) {
 				return;
 			}
-	dump($dc);		
+	
 			/** @var LanguageRelation */
 			$languageRelation = \System::getContainer()->get('contao.language.relation')->buildFromDca($dc, true);
 

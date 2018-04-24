@@ -25,10 +25,10 @@ class AbstractContentViewConstructor extends AbstractConstructor
 	{
 
 		$GLOBALS['TL_DCA'][$this->table]['config']['onload_callback'][] = function(\DataContainer $dc) {
-			if ('article' != $_GET['do'] || ($_GET['act'] && 'edit' == $_GET['act'])) {
-			//	return;
+			if ($_GET['act'] && 'edit' == $_GET['act']) {
+				return;
 			}
-dump($dc);	
+
 			if ($_GET['mode']) {
 				$content = \ContentModel::findByPk($dc->id);
 				$id = $content->pid;

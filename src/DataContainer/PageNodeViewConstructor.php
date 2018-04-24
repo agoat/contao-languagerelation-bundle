@@ -25,7 +25,7 @@ class PageNodeViewConstructor extends AbstractConstructor
 	public function buildDca ()
 	{
 		$GLOBALS['TL_DCA'][$this->table]['config']['onload_callback'][] = function(\DataContainer $dc) {
-			if ('edit' == $_GET['act']) {
+			if ($_GET['act'] && 'edit' == $_GET['act']) {
 				return;
 			}
 
