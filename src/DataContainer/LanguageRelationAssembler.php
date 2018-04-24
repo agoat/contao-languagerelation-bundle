@@ -22,17 +22,20 @@ class LanguageRelationAssembler
 		'tl_page' => [
 			'Agoat\LanguageRelationBundle\DataContainer\PageNodeViewConstructor',
 			'Agoat\LanguageRelationBundle\DataContainer\RelationFieldConstructor',
-			'Agoat\LanguageRelationBundle\DataContainer\FallbackPageFieldConstructor'
+			'Agoat\LanguageRelationBundle\DataContainer\FallbackPageFieldConstructor',
+			'Agoat\LanguageRelationBundle\DataContainer\NoRelationCallbackConstructor'
 		],
 		'tl_article' => [
 			'Agoat\LanguageRelationBundle\DataContainer\PageNodeViewConstructor',
-			'Agoat\LanguageRelationBundle\DataContainer\RelationFieldConstructor'
+			'Agoat\LanguageRelationBundle\DataContainer\RelationFieldConstructor',
+			'Agoat\LanguageRelationBundle\DataContainer\NoRelationCallbackConstructor'
 		],
 		'tl_content' => [
 			'Agoat\LanguageRelationBundle\DataContainer\AbstractContentViewConstructor',
 		],
 		'tl_calendar' => [
-			'Agoat\LanguageRelationBundle\DataContainer\RelationFieldConstructor'
+			'Agoat\LanguageRelationBundle\DataContainer\RelationFieldConstructor',
+			'Agoat\LanguageRelationBundle\DataContainer\NoRelationCallbackConstructor'
 		],
 		'tl_calendar_events' => [
 			'Agoat\LanguageRelationBundle\DataContainer\EventCalendarViewConstructor',
@@ -43,7 +46,8 @@ class LanguageRelationAssembler
 			'Agoat\LanguageRelationBundle\DataContainer\RelationFieldConstructor'
 		],
 		'tl_news_archive' => [
-			'Agoat\LanguageRelationBundle\DataContainer\RelationFieldConstructor'
+			'Agoat\LanguageRelationBundle\DataContainer\RelationFieldConstructor',
+			'Agoat\LanguageRelationBundle\DataContainer\NoRelationCallbackConstructor'
 		],
 	];
 

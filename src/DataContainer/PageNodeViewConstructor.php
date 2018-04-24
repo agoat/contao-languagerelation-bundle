@@ -36,7 +36,7 @@ class PageNodeViewConstructor extends AbstractConstructor
 			}
 
 			/** @var LanguageRelation */
-			$languageRelation = \System::getContainer()->get('contao.language.relation')->buildFromTableAndId('tl_page', $node);
+			$languageRelation = \System::getContainer()->get('contao.language.relation')->buildFromDca($dc, false, $node);
 
 			if (null !== $languageRelation && $languageRelation->hasRelations()) {
 				$this->createRelationButton($languageRelation);

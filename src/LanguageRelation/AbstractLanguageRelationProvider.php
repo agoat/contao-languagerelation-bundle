@@ -22,7 +22,7 @@ abstract class AbstractLanguageRelationProvider implements LanguageRelationProvi
 
 	protected $currentLanguage;
 
-	protected $rootPages;
+	protected $rootPages = array();
 
 	
 	protected function getRelations($published, $currentEntity=null)
@@ -60,11 +60,15 @@ abstract class AbstractLanguageRelationProvider implements LanguageRelationProvi
 	}
 
 	
-	protected function setRootLanguages($page, $published)
+	protected function setRootLanguages($published, $currentEntity=null)
 	{
-		if ($page instanceof PageModel) {
+		if (null === $currentEntity) {
+			$currentEntity = $this->currentEntity;
+		}
+
+		if ($currentEntity instanceof PageModel) {
 			$rootPages = $this->getRelatedRootPages(
-				PageModel::findByPk($page->loadDetails()->rootId),
+				PageModel::findByPk($currentEntity->loadDetails()->rootId),
 				$published,
 				false
 			);
@@ -75,7 +79,7 @@ abstract class AbstractLanguageRelationProvider implements LanguageRelationProvi
 				}
 			}
 	
-			$this->currentLanguage = $page->rootLanguage;
+			$this->currentLanguage = $currentEntity->rootLanguage;
 		}
 	}
 
@@ -130,28 +134,36 @@ abstract class AbstractLanguageRelationProvider implements LanguageRelationProvi
 	}
 
 	
-	protected function newRelationId($table)
+	protected function newRelationId()
 	{
 		$db = \Database::getInstance();
 
-		return $db->execute("SELECT MAX(relation) as relation FROM ".$table)->relation + 1;
+		return $db->execute("SELECT MAX(relation) as relation FROM ".$this->getDcaTable())->relation + 1;
 	}
 
 	
-	public function setRelation($language, $id, $register)
+	public function initRelation($register, $relationId=false)
 	{
-		$model = get_class($this->currentEntity);
-		
-		if (1 > $this->currentEntity->relation) {
+		if (0 == $this->currentEntity->relation || false !== $relationId) {
+			$model = get_class($this->currentEntity);
+			
 			$this->currentEntity = $model::findByPk($this->currentEntity->id);
 
-			$this->currentEntity->relation = $this->newRelationId($this->getDcaTable());
+			$this->currentEntity->relation = false !== $relationId ? $relationId : $this->newRelationId();
 			$this->currentEntity->language = $this->currentLanguage;
 
 			if ($register) {
 				$this->currentEntity->save();
 			}
 		}
+	}
+
+	
+	public function setRelation($language, $id, $register)
+	{
+		$this->initRelation($register);
+		
+		$model = get_class($this->currentEntity);
 		
 		$newRelation = $model::findByPk($id);
 	
@@ -180,6 +192,30 @@ abstract class AbstractLanguageRelationProvider implements LanguageRelationProvi
 		if ($register) {
 			$removeRelation->save();	
 		}
+	}
+	
+	
+	public function attachTo($relation)
+	{
+		if (0 < $relation->getRelationId()) {
+			$this->initRelation(true, $relation->getRelationId());
+		} else {
+			$this->setRelation($relation->getCurrentLanguage(), $relation->getCurrentId(), true);
+		}
+	
+		return $this->getRelations(false);
+	}
+	
+	
+	public function getRelationId()
+	{
+		return $this->currentEntity->relation;
+	}
+	
+	
+	public function getCurrentId()
+	{
+		return $this->currentEntity->id;
 	}
 	
 	

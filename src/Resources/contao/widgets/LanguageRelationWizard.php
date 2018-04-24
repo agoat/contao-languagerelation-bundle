@@ -12,10 +12,13 @@
 namespace Agoat\LanguageRelationBundle\Contao;
 
 use Agoat\LanguageRelationBundle\LanguageRelation\LanguageRelationGenerator;
+use Contao\CoreBundle\Exception\RedirectResponseException;
 use Contao\Widget;
 use Contao\System;
+use Contao\Controller;
 use Contao\Backend;
 use Contao\Image;
+use Contao\Input;
 
 
 /**
@@ -48,7 +51,7 @@ class LanguageRelationWizard extends Widget
 		{
 			return;
 		}
-		
+
 		/** @var LanguageRelation */
 		$languageRelation = System::getContainer()->get('contao.language.relation')->buildFromDca($this->objDca);
 	
@@ -76,9 +79,13 @@ class LanguageRelationWizard extends Widget
 		$languageRelation = System::getContainer()->get('contao.language.relation')->buildFromDca($this->objDca);
 
 		if (null === $languageRelation) {
-			return '<div style="padding:6px 0;"><div>Unable to find a language relation provider that can handle this context!!</div></div>';
+			return '<div style="padding:6px 0;"><div>Unable to create any language relation!!</div></div>';
 		}
 
+		if (!$languageRelation->hasRelations()) {
+			//$languageRelation->tryAutoRelation();		
+		}
+		
 		if (!empty($language)) {
 			return $languageRelation->supportsPicker()?
 				$this->renderLanguagePickerBlock($languageRelation, $language, false):

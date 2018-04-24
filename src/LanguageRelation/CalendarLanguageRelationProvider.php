@@ -48,8 +48,12 @@ class CalendarLanguageRelationProvider extends AbstractLanguageRelationProvider 
 		
 		$this->parentEntity = PageModel::findByPk($this->currentEntity->jumpTo);
 		
-		$this->setRootLanguages($this->parentEntity, $published);
+		if (null === $this->parentEntity) {
+			return null;
+		}
 		
+		$this->setRootLanguages($published, $this->parentEntity);
+	
 		return new LanguageRelation(
 			$this, 
 			$this->currentLanguage,

@@ -17,6 +17,9 @@ $GLOBALS['TL_HOOKS']['loadDataContainer'][] = array('Agoat\\LanguageRelationBund
 // Add executePostActions hook
 $GLOBALS['TL_HOOKS']['executePostActions'][] = array('Agoat\\LanguageRelationBundle\\Contao\\Ajax','postActions');
 
+// Add reviseTable hook
+$GLOBALS['TL_HOOKS']['reviseTable'][] = array('Agoat\\LanguageRelationBundle\\DataContainer\\TableMaintenanceWorker','resetDanglingRelations');
+
 // Frontend module
 $GLOBALS['FE_MOD']['navigationMenu']['languagenav'] = 'Agoat\LanguageRelationBundle\Contao\ModuleLanguageNavigation';
 

@@ -58,6 +58,12 @@ class LanguageRelationGenerator
 	}
 
 	
+	public function hasProviderForTable($table)
+	{
+		return !empty($this->context[$table]);
+	}
+
+	
     /**
 	 * Register provider
 	 *
@@ -88,7 +94,8 @@ class LanguageRelationGenerator
 		if (array_key_exists($context.$id, $this->relationCache) && !$bypassCache) {
 			return $this->relationCache[$context.$id];
 		} else {
-			$relation = $this->providers[$context]->build($id, $published);
+			$provider = clone $this->providers[$context];
+			$relation = $provider->build($id, $published);
 			
 			if (null !== $relation) {
 				$this->relationCache[$context.$id] = $relation;
@@ -99,27 +106,15 @@ class LanguageRelationGenerator
 	}
 
 	
-	public function buildFromDca(\DataContainer $dc)
+	public function buildFromDca(\DataContainer $dc, $parent=false, $id=null)
 	{
-		$context = $this->getContextForTable($dc->table);
+		$context = $this->getContextForTable($parent ? $dc->parentTable : $dc->table);
 
 		if (empty($context)) {
 			return null;
 		}
 		
-		return $this->build($context, $dc->id);
-	}
-
-	
-	public function buildFromTableAndId($table, $id)
-	{
-		$context = $this->getContextForTable($table);
-
-		if (empty($context)) {
-			return null;
-		}
-		
-		return $this->build($context, $id);
+		return $this->build($context, $id ?: $dc->id);
 	}
 
 	
@@ -133,8 +128,4 @@ class LanguageRelationGenerator
 		
 		return $this->build('page', $objpage->id, true);
 	}
-
-	
-
-
 }

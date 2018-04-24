@@ -57,7 +57,7 @@ class NewsLanguageRelationProvider extends AbstractLanguageRelationProvider impl
 		
 		$this->parentEntity = NewsArchiveModel::findByPk($this->currentEntity->pid);
 	
-		$this->setRootLanguages(PageModel::findByPk($this->parentEntity->jumpTo), $published);
+		$this->setRootLanguages($published, PageModel::findByPk($this->parentEntity->jumpTo));
 		
 		return new LanguageRelation(
 			$this, 
@@ -145,13 +145,17 @@ class NewsLanguageRelationProvider extends AbstractLanguageRelationProvider impl
 	
 	public function getCreateUrl($language)
 	{
+		if (0 == $this->currentEntity->relation) {
+			return null;
+		}
+
 		$this->setParentRelations(false);	
 
 		if (!array_key_exists($language, $this->parentRelations)) {
 			return null;
 		}
 		
-		return Backend::addToUrl('act=copy&mode=2&id='.$this->currentEntity->id.'&pid='.$this->parentRelations[$language]->id);
+		return Backend::addToUrl('act=copy&mode=2&id='.$this->currentEntity->id.'&rid='.$this->currentEntity->relation.'&pid='.$this->parentRelations[$language]->id);
 	}
 	
 	

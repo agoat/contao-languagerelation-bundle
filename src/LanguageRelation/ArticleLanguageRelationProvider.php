@@ -54,7 +54,7 @@ class ArticleLanguageRelationProvider extends AbstractLanguageRelationProvider i
 		
 		$this->parentEntity = \PageModel::findByPk($this->currentEntity->pid);
 		
-		$this->setRootLanguages($this->parentEntity, $published);
+		$this->setRootLanguages($published, $this->parentEntity);
 
 		return new LanguageRelation(
 			$this, 
@@ -148,6 +148,11 @@ class ArticleLanguageRelationProvider extends AbstractLanguageRelationProvider i
 	
 	public function getCreateUrl($language)
 	{
+		if (0 == $this->currentEntity->relation) {
+			return null;
+		}
+
+
 		$this->setParentRelations(false);	
 	
 		if (!array_key_exists($language, $this->parentRelations)) {
@@ -155,13 +160,13 @@ class ArticleLanguageRelationProvider extends AbstractLanguageRelationProvider i
 		}
 
 		$articles = \ArticleModel::findByPid($this->parentRelations[$language]->id, ['order'=>'sorting']);
-	
-		if (null === $articles) {
-			$query = 'act=copy&mode=2&id='.$this->currentEntity->id.'&pid='.$this->parentRelations[$language]->id;
-		} else {
-			$query = 'act=copy&mode=1&id='.$this->currentEntity->id.'&pid='.$articles->last()->id;
-		}
 		
+		$query = 'act=copy&id='.$this->currentEntity->id.'&rid='.$this->currentEntity->relation;
+		
+		$query .= (null === $articles) ?
+			'&mode=2&pid='.$this->parentRelations[$language]->id :
+			'&mode=1&pid='.$articles->last()->id;
+
 		return Backend::addToUrl($query);
 	}
 

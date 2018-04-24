@@ -44,8 +44,8 @@ class PageLanguageRelationProvider extends AbstractLanguageRelationProvider impl
 			return null;
 		} 
 
-		$this->setRootLanguages($this->currentEntity, $published);
-			
+		$this->setRootLanguages($published);
+		
 		return new LanguageRelation(
 			$this, 
 			$this->currentLanguage,
@@ -106,7 +106,8 @@ class PageLanguageRelationProvider extends AbstractLanguageRelationProvider impl
 	public function getPickerUrl($language)
 	{
 		$options = [
-			'rootNodes' => $this->rootPages[$language]->id
+			'rootNodes' => $this->rootPages[$language]->id,
+			'source' => $this->getDcaTable().'.'.$this->currentEntity->id
 		];
 		
 		return \System::getContainer()->get('contao.picker.builder')->getUrl('page', $options);
@@ -115,7 +116,7 @@ class PageLanguageRelationProvider extends AbstractLanguageRelationProvider impl
 	
 	public function getCreateUrl($language)
 	{
-		if (0 == $this->currentEntity->pid) {
+		if (0 == $this->currentEntity->pid || 0 == $this->currentEntity->tstamp) {
 			return null;
 		}
 		
@@ -132,12 +133,12 @@ class PageLanguageRelationProvider extends AbstractLanguageRelationProvider impl
 		}
 
 		$childPages = PageModel::findByPid($this->parentRelations[$language]->id, ['order'=>'sorting']);
-	
-		if (null === $childPages) {
-			$query = 'act=copy&mode=2&id='.$this->currentEntity->id.'&pid='.$this->parentRelations[$language]->id;
-		} else {
-			$query = 'act=copy&mode=1&id='.$this->currentEntity->id.'&pid='.$childPages->last()->id;
-		}
+		
+		$query = 'act=copy&id='.$this->currentEntity->id.'&rid='.$this->currentEntity->relation;
+		
+		$query .= (null === $childPages) ?
+			'&mode=2&pid='.$this->parentRelations[$language]->id :
+			'&mode=1&pid='.$childPages->last()->id;
 		
 		return Backend::addToUrl($query);
 	}
@@ -175,4 +176,32 @@ class PageLanguageRelationProvider extends AbstractLanguageRelationProvider impl
 		
 		return PageModel::findFirstPublishedByPid($this->rootPages[$language]->id);		
 	}
+	
+	
+	public function tryAutoRelation()
+	{
+		
+		$this->setParentRelations(false);
+		
+		foreach (array_keys($this->rootPages) as $language) {
+			if ($language == $this->currentLanguage) {
+				continue;
+			}
+			
+			$childPages = PageModel::findByPid($this->parentRelations[$language]->id, ['order'=>'sorting']);
+
+			if (null === $childPages) {
+				continue;
+			}
+			
+			if (1 == $childPages->count()) {
+				$this->setRelation($language, $childPages->id, false);
+			}
+		}
+
+		return $this->getRelations(false);
+	}
+	
+	
+
 }

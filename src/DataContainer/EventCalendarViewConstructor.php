@@ -25,9 +25,9 @@ class EventCalendarViewConstructor extends AbstractConstructor
 			if ('edit' == $_GET['act']) {
 				return;
 			}
-			
+	dump($dc);		
 			/** @var LanguageRelation */
-			$languageRelation = \System::getContainer()->get('contao.language.relation')->buildFromTableAndId('tl_calendar', $dc->id);
+			$languageRelation = \System::getContainer()->get('contao.language.relation')->buildFromDca($dc, true);
 
 			if (null !== $languageRelation && $languageRelation->hasRelations()) {
 				$this->createRelationButton($languageRelation);

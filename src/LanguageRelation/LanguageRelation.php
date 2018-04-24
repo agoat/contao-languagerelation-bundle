@@ -56,6 +56,18 @@ class LanguageRelation
 	}
 
 	
+	public function getCurrentId()
+	{
+		return $this->provider->getCurrentId();
+	}
+
+
+	public function getRelationId()
+	{
+		return $this->provider->getRelationId();
+	}
+
+
 	public function getLanguages()
 	{
 		return $this->languages;
@@ -108,7 +120,7 @@ class LanguageRelation
 	
 	public function getTitle($language)
 	{
-		return $this->related[$language]->title?: $this->related[$language]->headline;
+		return $this->related[$language]->title ?: $this->related[$language]->headline;
 	}
 
 	
@@ -223,12 +235,60 @@ class LanguageRelation
 			$this->provider->removeRelation($this->related[$language]->id, $register);
 			unset($this->related[$language]);
 			
+			if (!$this->hasRelations()) {
+			//	$this->provider->initRelation($register, 0);
+			}
+			
 			return true;
 		}
 		
 		return false;
 	}
-	
-	
 
+	
+	public function tryAutoRelation()
+	{
+		if (($related = $this->provider->tryAutoRelation()) instanceof Collection) {
+			foreach ($related as $model) {
+				if ($model instanceof Model) {
+					$this->related[$model->language] = $model;
+				}
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+
+
+	public function attachTo($relation)
+	{
+		if ($relation instanceof LanguageRelation) {
+			if (($related = $this->provider->attachTo($relation)) instanceof Collection) {
+				foreach ($related as $model) {
+					if ($model instanceof Model) {
+						$this->related[$model->language] = $model;
+					}
+				}
+				
+				return true;
+			}
+		}
+		
+		return false;
+	}	
+	
+	
+	public function detach()
+	{
+		if (1 == count($this->related)) {
+			$language = current(array_keys($this->related));
+			
+			$this->provider->removeRelation($this->related[$language]->id, true);
+			unset($this->related[$language]);
+		}
+		
+		$this->provider->initRelation(true, 0);
+	}	
 }

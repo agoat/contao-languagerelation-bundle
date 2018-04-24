@@ -12,6 +12,7 @@
 namespace Agoat\LanguageRelationBundle\DataContainer;
 
 use Agoat\LanguageRelationBundle\LanguageRelation\LanguageRelationGenerator;
+use Contao\System;
 
 
 /**
@@ -43,8 +44,19 @@ class RelationFieldConstructor extends AbstractConstructor
 			}
 		};
 		
+		$GLOBALS['TL_DCA'][$this->table]['config']['oncopy_callback'][] = function($id, \DataContainer $dc) {
+			$old = System::getContainer()->get('contao.language.relation')->buildFromDca($dc);
+			$new = System::getContainer()->get('contao.language.relation')->buildFromDca($dc, false, $id);
+		
+			if ($new->getCurrentLanguage() != $old->getCurrentLanguage()) {
+				$new->attachTo($old);
+			}
+		};
+
+		
 		if (!isset($GLOBALS['TL_DCA'][$this->table]['fields']['language'])) {
 			$GLOBALS['TL_DCA'][$this->table]['fields']['language'] = array(
+				'eval'	=> array('doNotCopy'=>true),
 				'sql'	=> "varchar(5) NOT NULL default ''"
 			);
 		}

@@ -28,7 +28,7 @@ class AbstractContentViewConstructor extends AbstractConstructor
 			if ('article' != $_GET['do'] || ($_GET['act'] && 'edit' == $_GET['act'])) {
 			//	return;
 			}
-
+dump($dc);	
 			if ($_GET['mode']) {
 				$content = \ContentModel::findByPk($dc->id);
 				$id = $content->pid;
@@ -37,7 +37,7 @@ class AbstractContentViewConstructor extends AbstractConstructor
 			}
 
 			/** @var LanguageRelation */
-			$languageRelation = \System::getContainer()->get('contao.language.relation')->buildFromTableAndId($dc->parentTable, $id);
+			$languageRelation = \System::getContainer()->get('contao.language.relation')->buildFromDca($dc, true);
 
 			if (null !== $languageRelation && $languageRelation->hasRelations()) {
 				$this->createRelationButton($languageRelation);

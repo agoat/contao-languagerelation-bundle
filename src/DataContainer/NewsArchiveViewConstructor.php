@@ -25,9 +25,9 @@ class NewsArchiveViewConstructor extends AbstractConstructor
 			if ('edit' == $_GET['act']) {
 				return;
 			}
-			
+		dump($dc);		
 			/** @var LanguageRelation */
-			$languageRelation = \System::getContainer()->get('contao.language.relation')->buildFromTableAndId('tl_news_archive', $dc->id);
+			$languageRelation = \System::getContainer()->get('contao.language.relation')->buildFromDca($dc, true);
 
 			if (null !== $languageRelation && $languageRelation->hasRelations()) {
 				$this->createRelationButton($languageRelation);
